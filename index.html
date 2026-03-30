@@ -124,12 +124,13 @@
 
         /* ── NEWS TICKER ── */
         #news-ticker {
-            border-top: 2px solid #222;
-            height: 64px;
+            border-top: 1px solid #222;
+            margin-top: auto;
+            flex-shrink: 0;
+            height: 80px;
             display: flex;
             align-items: center;
             overflow: hidden;
-            flex-shrink: 0;
         }
         #news-tag {
             background: #c60c30;
@@ -247,16 +248,16 @@
                     <div id="m-upcoming-rows"><div class="empty-msg">—</div></div>
                 </div>
 
+                <div id="news-ticker">
+                    <div id="news-tag">Breaking</div>
+                    <div id="news-track-wrap">
+                        <div id="news-track"><span class="news-item" style="color:#333">Loading headlines...</span></div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-    </div>
-
-    <div id="news-ticker">
-        <div id="news-tag">Breaking</div>
-        <div id="news-track-wrap">
-            <div id="news-track"><span class="news-item" style="color:#333">Loading headlines...</span></div>
-        </div>
     </div>
 
     <div id="footer">
