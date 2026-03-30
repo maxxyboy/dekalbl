@@ -6,15 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Train Arrivals</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            height: 100vh;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { height: 100vh; }
 
         body {
             background: #000;
@@ -34,26 +27,10 @@
             align-items: center;
             justify-content: space-between;
         }
+        #topbar-title { font-size: 15px; color: #555; text-transform: uppercase; letter-spacing: 3px; }
+        #clock { font-size: 28px; font-weight: 300; color: #ccc; letter-spacing: 1px; }
 
-        #topbar-title {
-            font-size: 15px;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        #clock {
-            font-size: 28px;
-            font-weight: 300;
-            color: #ccc;
-            letter-spacing: 1px;
-        }
-
-        #panels {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-        }
+        #panels { flex: 1; display: flex; overflow: hidden; }
 
         #left {
             flex: 1;
@@ -61,7 +38,6 @@
             display: flex;
             flex-direction: column;
         }
-
         #left-header {
             padding: 20px 28px 14px;
             border-bottom: 1px solid #222;
@@ -79,51 +55,15 @@
             color: #fff;
             flex-shrink: 0;
         }
+        .bullet-sm { width: 44px; height: 44px; font-size: 24px; }
+        .bullet-md { width: 64px; height: 64px; font-size: 36px; }
+        .bullet-lg { width: 80px; height: 80px; font-size: 44px; }
+        .bullet-l  { background: #6d6d6d; }
+        .bullet-m  { background: #ff6319; }
 
-        .bullet-sm {
-            width: 44px;
-            height: 44px;
-            font-size: 24px;
-        }
-
-        .bullet-md {
-            width: 64px;
-            height: 64px;
-            font-size: 36px;
-        }
-
-        .bullet-lg {
-            width: 80px;
-            height: 80px;
-            font-size: 44px;
-        }
-
-        .bullet-l {
-            background: #6d6d6d;
-        }
-
-        .bullet-m {
-            background: #ff6319;
-        }
-
-        .station-info {
-            flex: 1;
-        }
-
-        .station-name {
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            line-height: 1;
-        }
-
-        .direction {
-            font-size: 13px;
-            color: #aaa;
-            margin-top: 4px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
+        .station-info { flex: 1; }
+        .station-name { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
+        .direction { font-size: 13px; color: #aaa; margin-top: 4px; text-transform: uppercase; letter-spacing: 1.5px; }
 
         #left-next {
             flex: 1;
@@ -133,114 +73,25 @@
             justify-content: center;
             padding: 28px;
         }
+        #next-label { font-size: 13px; color: #555; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
+        #next-row { display: flex; align-items: center; gap: 24px; width: 100%; }
+        #next-destination { font-size: 38px; font-weight: 400; flex: 1; }
+        #next-time { font-size: 96px; font-weight: 700; letter-spacing: -4px; line-height: 1; text-align: right; }
+        #next-time .unit { font-size: 28px; font-weight: 400; color: #aaa; margin-left: 6px; }
+        #next-time.brd { color: #00933c; font-size: 64px; }
+        #next-time.arr { color: #fccc0a; font-size: 64px; }
 
-        #next-label {
-            font-size: 13px;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-        }
+        #upcoming-list { border-top: 1px solid #222; padding: 0 28px 16px; }
+        #upcoming-list-label { font-size: 11px; color: #444; text-transform: uppercase; letter-spacing: 2px; padding: 12px 0 8px; }
+        .upcoming-row { display: flex; align-items: center; gap: 16px; padding: 8px 0; border-top: 1px solid #1a1a1a; }
+        .upcoming-dest { font-size: 18px; font-weight: 400; flex: 1; color: #ccc; }
+        .upcoming-time { font-size: 22px; font-weight: 600; color: #888; }
+        .upcoming-time .unit { font-size: 14px; font-weight: 400; color: #555; margin-left: 4px; }
+        .upcoming-time.brd { color: #00933c; }
+        .upcoming-time.arr { color: #fccc0a; }
+        .empty-msg { color: #444; font-size: 16px; padding: 12px 0; }
 
-        #next-row {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            width: 100%;
-        }
-
-        #next-destination {
-            font-size: 38px;
-            font-weight: 400;
-            flex: 1;
-        }
-
-        #next-time {
-            font-size: 96px;
-            font-weight: 700;
-            letter-spacing: -4px;
-            line-height: 1;
-            text-align: right;
-        }
-
-        #next-time .unit {
-            font-size: 28px;
-            font-weight: 400;
-            color: #aaa;
-            margin-left: 6px;
-        }
-
-        #next-time.brd {
-            color: #00933c;
-            font-size: 64px;
-        }
-
-        #next-time.arr {
-            color: #fccc0a;
-            font-size: 64px;
-        }
-
-        #upcoming-list {
-            border-top: 1px solid #222;
-            padding: 0 28px 16px;
-        }
-
-        #upcoming-list-label {
-            font-size: 11px;
-            color: #444;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 12px 0 8px;
-        }
-
-        .upcoming-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 8px 0;
-            border-top: 1px solid #1a1a1a;
-        }
-
-        .upcoming-dest {
-            font-size: 18px;
-            font-weight: 400;
-            flex: 1;
-            color: #ccc;
-        }
-
-        .upcoming-time {
-            font-size: 22px;
-            font-weight: 600;
-            color: #888;
-        }
-
-        .upcoming-time .unit {
-            font-size: 14px;
-            font-weight: 400;
-            color: #555;
-            margin-left: 4px;
-        }
-
-        .upcoming-time.brd {
-            color: #00933c;
-        }
-
-        .upcoming-time.arr {
-            color: #fccc0a;
-        }
-
-        .empty-msg {
-            color: #444;
-            font-size: 16px;
-            padding: 12px 0;
-        }
-
-        #right {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
+        #right { flex: 1; display: flex; flex-direction: column; }
         #right-header {
             padding: 20px 28px 14px;
             border-bottom: 1px solid #222;
@@ -248,133 +99,52 @@
             align-items: center;
             gap: 16px;
         }
-
         #right-arrivals {
             flex: 1;
             display: flex;
             flex-direction: column;
             padding: 28px;
         }
+        #m-next-label { font-size: 13px; color: #555; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
+        #m-next-row { display: flex; align-items: center; gap: 24px; margin-bottom: 24px; }
+        #m-next-destination { font-size: 38px; font-weight: 400; flex: 1; }
+        #m-next-time { font-size: 96px; font-weight: 700; letter-spacing: -4px; line-height: 1; text-align: right; }
+        #m-next-time .unit { font-size: 28px; font-weight: 400; color: #aaa; margin-left: 6px; }
+        #m-next-time.brd { color: #00933c; font-size: 64px; }
+        #m-next-time.arr { color: #fccc0a; font-size: 64px; }
 
-        #m-next-label {
-            font-size: 13px;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-        }
-
-        #m-next-row {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        #m-next-destination {
-            font-size: 38px;
-            font-weight: 400;
-            flex: 1;
-        }
-
-        #m-next-time {
-            font-size: 96px;
-            font-weight: 700;
-            letter-spacing: -4px;
-            line-height: 1;
-            text-align: right;
-        }
-
-        #m-next-time .unit {
-            font-size: 28px;
-            font-weight: 400;
-            color: #aaa;
-            margin-left: 6px;
-        }
-
-        #m-next-time.brd {
-            color: #00933c;
-            font-size: 64px;
-        }
-
-        #m-next-time.arr {
-            color: #fccc0a;
-            font-size: 64px;
-        }
-
-        #m-upcoming {
-            border-top: 1px solid #222;
-            padding-top: 12px;
-        }
-
-        #m-upcoming-label {
-            font-size: 11px;
-            color: #444;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
-
-        .m-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 8px 0;
-            border-top: 1px solid #1a1a1a;
-        }
-
-        .m-dest {
-            font-size: 18px;
-            color: #ccc;
-            flex: 1;
-        }
-
-        .m-time {
-            font-size: 22px;
-            font-weight: 600;
-            color: #888;
-        }
-
-        .m-time .unit {
-            font-size: 14px;
-            color: #555;
-            margin-left: 4px;
-        }
-
-        .m-time.brd {
-            color: #00933c;
-        }
-
-        .m-time.arr {
-            color: #fccc0a;
-        }
+        #m-upcoming { border-top: 1px solid #222; padding-top: 12px; }
+        #m-upcoming-label { font-size: 11px; color: #444; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .m-row { display: flex; align-items: center; gap: 16px; padding: 8px 0; border-top: 1px solid #1a1a1a; }
+        .m-dest { font-size: 18px; color: #ccc; flex: 1; }
+        .m-time { font-size: 22px; font-weight: 600; color: #888; }
+        .m-time .unit { font-size: 14px; color: #555; margin-left: 4px; }
+        .m-time.brd { color: #00933c; }
+        .m-time.arr { color: #fccc0a; }
 
         /* ── NEWS TICKER ── */
         #news-ticker {
-            margin-top: auto;
-            border-top: 1px solid #222;
-            height: 40px;
+            border-top: 2px solid #222;
+            height: 64px;
             display: flex;
             align-items: center;
             overflow: hidden;
             flex-shrink: 0;
         }
-
         #news-tag {
             background: #c60c30;
             color: #fff;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            padding: 0 12px;
+            padding: 0 20px;
             height: 100%;
             display: flex;
             align-items: center;
             flex-shrink: 0;
             white-space: nowrap;
         }
-
         #news-track-wrap {
             flex: 1;
             overflow: hidden;
@@ -383,25 +153,22 @@
             align-items: center;
             position: relative;
         }
-
         #news-track {
             display: inline-flex;
             white-space: nowrap;
             position: absolute;
         }
-
         .news-item {
-            font-size: 13px;
-            color: #bbb;
-            padding-right: 64px;
+            font-size: 18px;
+            color: #ccc;
+            padding-right: 80px;
             white-space: nowrap;
         }
-
         .news-item::before {
             content: '\25C6';
             color: #c60c30;
-            margin-right: 10px;
-            font-size: 9px;
+            margin-right: 14px;
+            font-size: 11px;
         }
 
         /* ── FOOTER ── */
@@ -414,56 +181,14 @@
             color: #444;
             font-size: 12px;
         }
+        #dot { width: 7px; height: 7px; border-radius: 50%; background: #555; display: inline-block; margin-right: 5px; transition: background 0.3s; }
+        #dot.live  { background: #00933c; }
+        #dot.error { background: #c60c30; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+        #dot.loading { animation: pulse 1s infinite; background: #fccc0a; }
 
-        #dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #555;
-            display: inline-block;
-            margin-right: 5px;
-            transition: background 0.3s;
-        }
-
-        #dot.live {
-            background: #00933c;
-        }
-
-        #dot.error {
-            background: #c60c30;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1
-            }
-
-            50% {
-                opacity: .3
-            }
-        }
-
-        #dot.loading {
-            animation: pulse 1s infinite;
-            background: #fccc0a;
-        }
-
-        #delay-banner {
-            display: none;
-            background: #c60c30;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
-            padding: 5px 32px;
-            letter-spacing: 0.5px;
-        }
-
-        #delay-banner.visible {
-            display: block;
-        }
+        #delay-banner { display: none; background: #c60c30; color: #fff; font-size: 12px; font-weight: 600; text-align: center; padding: 5px 32px; letter-spacing: 0.5px; }
+        #delay-banner.visible { display: block; }
     </style>
 </head>
 
@@ -497,9 +222,7 @@
             </div>
             <div id="upcoming-list">
                 <div id="upcoming-list-label">Following trains</div>
-                <div id="upcoming-rows">
-                    <div class="empty-msg">—</div>
-                </div>
+                <div id="upcoming-rows"><div class="empty-msg">—</div></div>
             </div>
         </div>
 
@@ -521,20 +244,19 @@
                 </div>
                 <div id="m-upcoming">
                     <div id="m-upcoming-label">Following trains</div>
-                    <div id="m-upcoming-rows">
-                        <div class="empty-msg">—</div>
-                    </div>
+                    <div id="m-upcoming-rows"><div class="empty-msg">—</div></div>
                 </div>
-                <div id="news-ticker">
-                    <div id="news-tag">Breaking</div>
-                    <div id="news-track-wrap">
-                        <div id="news-track"><span class="news-item" style="color:#333">Loading headlines...</span>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
 
+    </div>
+
+    <div id="news-ticker">
+        <div id="news-tag">Breaking</div>
+        <div id="news-track-wrap">
+            <div id="news-track"><span class="news-item" style="color:#333">Loading headlines...</span></div>
+        </div>
     </div>
 
     <div id="footer">
@@ -728,9 +450,9 @@
 
             const n = new Date();
             document.getElementById('updated').textContent = 'Updated ' +
-                String(n.getHours()).padStart(2, '0') + ':' +
-                String(n.getMinutes()).padStart(2, '0') + ':' +
-                String(n.getSeconds()).padStart(2, '0');
+                String(n.getHours()).padStart(2,'0') + ':' +
+                String(n.getMinutes()).padStart(2,'0') + ':' +
+                String(n.getSeconds()).padStart(2,'0');
             setDot(anyError ? 'error' : 'live', anyError ? 'Partial error — check console' : 'Live MTA feed');
         }
 
@@ -776,5 +498,4 @@
         });
     </script>
 </body>
-
 </html>
