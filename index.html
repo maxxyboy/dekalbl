@@ -37,6 +37,7 @@
             border-right: 2px solid #222;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
         #left-header {
             padding: 20px 28px 14px;
@@ -66,11 +67,8 @@
         .direction { font-size: 13px; color: #aaa; margin-top: 4px; text-transform: uppercase; letter-spacing: 1.5px; }
 
         #left-next {
-            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
             padding: 28px;
         }
         #next-label { font-size: 13px; color: #555; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
@@ -263,6 +261,18 @@
                 <div id="upcoming-list-label">Following trains</div>
                 <div id="upcoming-rows"><div class="empty-msg">—</div></div>
             </div>
+
+            <div id="knicks-panel">
+                <div id="knicks-label">Knicks</div>
+                <div id="knicks-matchup">
+                    <span class="knicks-team nyk">NYK</span>
+                    <span class="knicks-sep">vs</span>
+                    <span class="knicks-team" id="knicks-opp">—</span>
+                </div>
+                <div id="knicks-score" style="color:#444">—</div>
+                <div id="knicks-status">Loading...</div>
+            </div>
+
         </div>
 
         <!-- RIGHT: M train at Knickerbocker Av -->
@@ -284,17 +294,6 @@
                     <div id="news-track-wrap">
                         <div id="news-track"><span class="news-item" style="color:#333">Loading headlines...</span></div>
                     </div>
-                </div>
-
-                <div id="knicks-panel">
-                    <div id="knicks-label">Knicks</div>
-                    <div id="knicks-matchup">
-                        <span class="knicks-team nyk">NYK</span>
-                        <span class="knicks-sep">vs</span>
-                        <span class="knicks-team" id="knicks-opp">—</span>
-                    </div>
-                    <div id="knicks-score" style="color:#444">—</div>
-                    <div id="knicks-status">Loading...</div>
                 </div>
 
             </div>
