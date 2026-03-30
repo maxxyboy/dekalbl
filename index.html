@@ -159,7 +159,64 @@
             font-size: 12px;
         }
 
-        /* ── FOOTER ── */
+        /* ── KNICKS PANEL ── */
+        #knicks-panel {
+            border-top: 1px solid #222;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            padding: 14px 28px;
+            gap: 20px;
+        }
+        #knicks-label {
+            font-size: 10px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        #knicks-matchup {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .knicks-team {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .knicks-team.nyk { color: #f58426; }
+        .knicks-sep {
+            font-size: 20px;
+            color: #444;
+            font-weight: 300;
+        }
+        #knicks-score {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #fff;
+            white-space: nowrap;
+        }
+        #knicks-score .sep { color: #444; margin: 0 6px; font-weight: 300; }
+        #knicks-status {
+            font-size: 13px;
+            color: #888;
+            white-space: nowrap;
+            text-align: right;
+            min-width: 80px;
+        }
+        #knicks-status.live { color: #00933c; }
+        #knicks-status.final { color: #555; }
+        #knicks-time {
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+                /* ── FOOTER ── */
         #footer {
             padding: 10px 32px;
             border-top: 1px solid #222;
@@ -193,13 +250,7 @@
 
         <!-- LEFT: L train at DeKalb Av -->
         <div id="left">
-            <div id="left-header">
-                <div class="bullet bullet-md bullet-l">L</div>
-                <div class="station-info">
-                    <div class="station-name">DeKalb Av</div>
-                    <div class="direction">Toward 8 Av — Manhattan</div>
-                </div>
-            </div>
+
             <div id="left-next">
                 <div id="next-label">Next train</div>
                 <div id="next-row">
@@ -216,13 +267,7 @@
 
         <!-- RIGHT: M train at Knickerbocker Av -->
         <div id="right">
-            <div id="right-header">
-                <div class="bullet bullet-md bullet-m">M</div>
-                <div class="station-info">
-                    <div class="station-name">Knickerbocker Av</div>
-                    <div class="direction">Toward Middle Village</div>
-                </div>
-            </div>
+
             <div id="right-arrivals">
                 <div id="m-next-label">Next train</div>
                 <div id="m-next-row">
@@ -241,12 +286,23 @@
                     </div>
                 </div>
 
+                <div id="knicks-panel">
+                    <div id="knicks-label">Knicks</div>
+                    <div id="knicks-matchup">
+                        <span class="knicks-team nyk">NYK</span>
+                        <span class="knicks-sep">vs</span>
+                        <span class="knicks-team" id="knicks-opp">—</span>
+                    </div>
+                    <div id="knicks-score" style="color:#444">—</div>
+                    <div id="knicks-status">Loading...</div>
+                </div>
+
             </div>
         </div>
 
     </div>
 
-    <div id="footer">
+        <div id="footer">
         <div><span id="dot" class="loading"></span><span id="status">Connecting...</span></div>
         <div id="updated">—</div>
     </div>
@@ -455,7 +511,7 @@
                 const half = track.scrollWidth / 2;
                 tickerAnim = track.animate(
                     [{ transform: 'translateX(0)' }, { transform: `translateX(-${half}px)` }],
-                    { duration: half * 15, iterations: Infinity, easing: 'linear' }
+                    { duration: half * 20, iterations: Infinity, easing: 'linear' }
                 );
             });
         }
@@ -474,6 +530,86 @@
                 startTicker(['Unable to load headlines — retrying in 10 min']);
             }
         }
+
+
+        /* ── KNICKS SCORE ── */
+        const NBA_REFRESH = 30000;
+
+        function formatGameTime(utcStr) {
+            const d = new Date(utcStr);
+            return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+                + ' · '
+                + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+        }
+
+        function renderKnicks(data) {
+            const opp = document.getElementById('knicks-opp');
+            const score = document.getElementById('knicks-score');
+            const status = document.getElementById('knicks-status');
+            const label = document.getElementById('knicks-label');
+
+            const g = data.knicksGame;
+            const next = data.nextGame;
+
+            if (g) {
+                // Game today
+                const vs = g.knicks.isHome ? 'vs' : '@';
+                document.querySelector('.knicks-sep').textContent = vs;
+                opp.textContent = g.opponent.tricode;
+
+                if (g.status === 2) {
+                    // Live
+                    score.style.color = '#fff';
+                    score.innerHTML = `${g.knicks.score}<span class="sep">–</span>${g.opponent.score}`;
+                    const qtr = g.period <= 4 ? `Q${g.period}` : `OT${g.period - 4}`;
+                    status.textContent = g.clock ? `${qtr} ${g.clock}` : qtr;
+                    status.className = 'live';
+                    label.textContent = 'KNICKS LIVE';
+                } else if (g.status === 3) {
+                    // Final
+                    score.style.color = '#888';
+                    score.innerHTML = `${g.knicks.score}<span class="sep">–</span>${g.opponent.score}`;
+                    status.textContent = 'Final';
+                    status.className = 'final';
+                    label.textContent = 'Knicks';
+                } else {
+                    // Scheduled today
+                    score.style.color = '#444';
+                    score.textContent = '—';
+                    status.textContent = formatGameTime(g.gameTimeUTC);
+                    status.className = '';
+                    label.textContent = 'Knicks Today';
+                }
+            } else if (next) {
+                // No game today, show next upcoming
+                document.querySelector('.knicks-sep').textContent = next.knicks.isHome ? 'vs' : '@';
+                opp.textContent = next.opponent.tricode;
+                score.style.color = '#444';
+                score.textContent = '—';
+                status.textContent = formatGameTime(next.gameTimeUTC);
+                status.className = '';
+                label.textContent = 'Next Game';
+            } else {
+                opp.textContent = '—';
+                score.textContent = '—';
+                status.textContent = 'No games found';
+                status.className = '';
+            }
+        }
+
+        async function fetchKnicks() {
+            try {
+                const resp = await fetch('/.netlify/functions/nba');
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const data = await resp.json();
+                renderKnicks(data);
+            } catch (e) {
+                console.error('Knicks fetch error:', e);
+                document.getElementById('knicks-status').textContent = 'Error loading';
+            }
+        }
+
+        setTimeout(() => { fetchKnicks(); setInterval(fetchKnicks, NBA_REFRESH); }, 2000);
 
         updateClock();
         setInterval(updateClock, 1000);
